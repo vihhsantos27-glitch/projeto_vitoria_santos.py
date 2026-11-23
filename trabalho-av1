@@ -1,0 +1,196 @@
+filmes = [
+    {
+        "codigo": 1,
+        "titulo": "Vingadores",
+        "genero": "Acao",
+        "ano": 2012,
+        "nota": 9.0
+    },
+    {
+        "codigo": 2,
+        "titulo": "Titanic",
+        "genero": "Romance",
+        "ano": 1997,
+        "nota": 8.5
+    },
+    {
+        "codigo": 3,
+        "titulo": "Toy Story",
+        "genero": "Animacao",
+        "ano": 1995,
+        "nota": 9.5
+    }
+]
+
+
+# Funcao para exibir o menu
+def exibir_menu():
+    print("\n========== CATALOGO DE FILMES ==========")
+    print("1 - Cadastrar filme")
+    print("2 - Listar filmes")
+    print("3 - Buscar filme")
+    print("4 - Remover filme")
+    print("5 - Sair")
+    print("========================================")
+
+
+# Funcao para cadastrar um novo filme
+def cadastrar(lista):
+    print("\n--- CADASTRAR FILME ---")
+
+    try:
+        codigo = int(input("Digite o codigo do filme: "))
+
+        # Verifica se o codigo ja existe
+        for filme in lista:
+            if filme["codigo"] == codigo:
+                print("Erro! Esse codigo ja esta cadastrado.")
+                return
+
+        titulo = input("Digite o titulo: ").strip()
+        genero = input("Digite o genero: ").strip()
+        ano = int(input("Digite o ano: "))
+        nota = float(input("Digite a nota (0 a 10): "))
+
+        # Validacao dos campos
+        if titulo == "" or genero == "":
+            print("Erro! Os campos nao podem ficar vazios.")
+            return
+
+        if ano <= 0:
+            print("Erro! Ano invalido.")
+            return
+
+        if nota < 0 or nota > 10:
+            print("Erro! A nota deve ser entre 0 e 10.")
+            return
+
+        # Cria um dicionario com os dados do filme
+        novo_filme = {
+            "codigo": codigo,
+            "titulo": titulo,
+            "genero": genero,
+            "ano": ano,
+            "nota": nota
+        }
+
+        lista.append(novo_filme)
+        print("Filme cadastrado com sucesso!")
+
+    except ValueError:
+        print("Erro! Digite um valor numerico valido.")
+
+
+# Funcao para listar todos os filmes
+def listar(lista):
+    print("\n--- LISTA DE FILMES ---")
+
+    if len(lista) == 0:
+        print("Nenhum filme cadastrado.")
+        return
+
+    for filme in lista:
+        print("------------------------------")
+        print("Codigo:", filme["codigo"])
+        print("Titulo:", filme["titulo"])
+        print("Genero:", filme["genero"])
+        print("Ano:", filme["ano"])
+        print("Nota:", filme["nota"])
+
+    print("------------------------------")
+
+
+# Funcao para buscar um filme pelo codigo
+def buscar(lista):
+    print("\n--- BUSCAR FILME ---")
+
+    if len(lista) == 0:
+        print("Nao existem filmes cadastrados.")
+        return
+
+    try:
+        codigo = int(input("Digite o codigo do filme: "))
+
+        encontrado = False
+        comparacoes = 0
+
+        # Busca sequencial
+        for filme in lista:
+            comparacoes += 1
+
+            if filme["codigo"] == codigo:
+                encontrado = True
+
+                print("\nFilme encontrado!")
+                print("Codigo:", filme["codigo"])
+                print("Titulo:", filme["titulo"])
+                print("Genero:", filme["genero"])
+                print("Ano:", filme["ano"])
+                print("Nota:", filme["nota"])
+                break
+
+        if encontrado == False:
+            print("Filme nao encontrado.")
+
+        print("Quantidade de comparacoes:", comparacoes)
+
+    except ValueError:
+        print("Erro! Digite um codigo numerico.")
+
+
+# Funcao para remover um filme
+def remover(lista):
+    print("\n--- REMOVER FILME ---")
+
+    if len(lista) == 0:
+        print("Nenhum filme para remover.")
+        return
+
+    try:
+        codigo = int(input("Digite o codigo do filme que deseja remover: "))
+
+        encontrado = False
+
+        for i in range(len(lista)):
+            if lista[i]["codigo"] == codigo:
+                lista.pop(i)
+                encontrado = True
+                print("Filme removido com sucesso!")
+                break
+
+        if encontrado == False:
+            print("Filme nao encontrado.")
+
+    except ValueError:
+        print("Erro! Digite um codigo numerico.")
+
+
+# Funcao principal do programa
+def main():
+    while True:
+        exibir_menu()
+
+        opcao = input("Escolha uma opcao: ")
+
+        if opcao == "1":
+            cadastrar(filmes)
+
+        elif opcao == "2":
+            listar(filmes)
+
+        elif opcao == "3":
+            buscar(filmes)
+
+        elif opcao == "4":
+            remover(filmes)
+
+        elif opcao == "5":
+            print("Programa encerrado. Ate mais!")
+            break
+
+        else:
+            print("Opcao invalida! Tente novamente.")
+
+
+# Inicia o programa
+main()
